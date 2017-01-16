@@ -35,9 +35,19 @@ resolvers ++= Seq(
 
 scalacOptions := Seq(
   "-deprecation",
-  "-encoding", "utf8",
+  "-encoding", "UTF-8",
   "-feature",
-  "-unchecked"
+  "-language:existentials",
+  "-language:higherKinds",
+  "-language:implicitConversions",
+  "-unchecked",
+  "-Xfatal-warnings",
+  "-Xfuture",
+  "-Yno-adapted-args",
+  "-Ywarn-dead-code",
+  "-Ywarn-numeric-widen",
+  "-Ywarn-unused-import",
+  "-Ywarn-value-discard"
 )
 
 libraryDependencies ++= Seq(

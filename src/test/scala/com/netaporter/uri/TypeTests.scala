@@ -3,7 +3,6 @@ package com.netaporter.uri
 import org.scalatest.{Matchers, FlatSpec}
 
 class TypeTests extends FlatSpec with Matchers {
-
   import dsl._
 
   "String" should "render correctly" in {

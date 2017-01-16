@@ -4,7 +4,6 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 
 class ApplyTests extends FlatSpec with Matchers {
-
   "Uri apply method" should "accept String scheme, String host and path" in {
     val uri = Uri(scheme = "http", host = "theon.github.com", pathParts = Seq(StringPathPart("blah")))
     uri.protocol should equal(Some("http"))
