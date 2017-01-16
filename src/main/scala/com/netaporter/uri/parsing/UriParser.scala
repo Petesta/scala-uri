@@ -56,32 +56,28 @@ trait UriParser {
 object UriParser {
   def parse(s: String, config: UriConfig) = {
     val parser =
-      if(config.matrixParams) new DefaultUriParser(s, config) with MatrixParamSupport
-      else                    new DefaultUriParser(s, config)
+      if (config.matrixParams) new DefaultUriParser(s, config) with MatrixParamSupport
+      else                     new DefaultUriParser(s, config)
 
     parser._uri.run() match {
       case Success(uri) =>
         uri
-
       case Failure(pe@ParseError(position, _, formatTraces)) =>
         throw new java.net.URISyntaxException(s, "Invalid URI could not be parsed. " + formatTraces, position.index)
-
       case Failure(e) =>
         throw e
     }
   }
 
   def parseQuery(s: String, config: UriConfig) = {
-    val withQuestionMark = if(s.head == '?') s else "?" + s
+    val withQuestionMark = if (s.head == '?') s else "?" + s
     val parser = new DefaultUriParser(withQuestionMark, config)
 
     parser._queryString.run() match {
       case Success(queryString) =>
         queryString
-
       case Failure(pe@ParseError(position, _, formatTraces)) =>
         throw new java.net.URISyntaxException(s, "Invalid URI could not be parsed. " + formatTraces, position.index)
-
       case Failure(e) =>
         throw e
     }

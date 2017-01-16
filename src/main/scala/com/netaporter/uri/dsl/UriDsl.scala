@@ -8,7 +8,6 @@ import com.netaporter.uri.{Uri, StringPathPart}
  * @param uri
  */
 class UriDsl(val uri: Uri) extends AnyVal {
-
   /**
    * Adds a new Query String parameter key-value pair. If the value for the Query String parameter is None, then this
    * Query String parameter will not be rendered in calls to toString or toStringRaw
@@ -33,7 +32,6 @@ class UriDsl(val uri: Uri) extends AnyVal {
    * @return A new Uri with the new Query String parameter
    */
   def &(kv: (String, Any)) = uri.addParam(kv._1, kv._2)
-
 
   /**
    * Adds a fragment to the end of the uri
@@ -77,7 +75,10 @@ class UriDsl(val uri: Uri) extends AnyVal {
     )
 
   def /(other: Uri) = merge(other)
+
   def ?(other: Uri) = merge(other)
+
   def `#`(other: Uri) = merge(other)
+
   def &(other: Uri) = merge(other)
 }

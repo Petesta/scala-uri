@@ -53,7 +53,8 @@ trait Parameters {
    *
    * @return A new instance with the new parameter added
    */
-  def addParam(k: String): Self = addParam(k, None: Option[String])
+  def addParam(k: String): Self =
+    addParam(k, None: Option[String])
 
   def addParams(other: Parameters) =
     withParams(params ++ other.params)

@@ -6,11 +6,11 @@ package com.netaporter.uri.encoding
  */
 case class ChainedUriEncoder(encoders: Seq[UriEncoder]) extends UriEncoder {
   def shouldEncode(ch: Char) = findFirstEncoder(ch).isDefined
+
   def encodeChar(ch: Char) = findFirstEncoder(ch).getOrElse(NoopEncoder).encodeChar(ch)
 
-  def findFirstEncoder(ch: Char) = {
+  def findFirstEncoder(ch: Char) =
     encoders.find(_.shouldEncode(ch))
-  }
 
   def +(encoder: UriEncoder) = copy(encoders = encoder +: encoders)
 }

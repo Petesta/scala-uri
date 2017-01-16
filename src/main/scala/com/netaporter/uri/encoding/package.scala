@@ -8,8 +8,10 @@ import com.netaporter.uri.config.UriConfig
  */
 package object encoding {
   val percentEncode = PercentEncoder()
+
+  val spaceAsPlus = EncodeCharAs(' ', "+")
+
   def percentEncode(chars: Char*) = PercentEncoder(chars.toSet)
 
   def encodeCharAs(c: Char, as: String) = EncodeCharAs(c, as)
-  val spaceAsPlus = EncodeCharAs(' ', "+")
 }
