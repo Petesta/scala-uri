@@ -4,9 +4,7 @@ import org.scalatest.{Matchers, WordSpec}
 import Uri._
 
 class TransformTests extends WordSpec with Matchers {
-
   "mapQuery" should {
-
     "transform query params" in {
       val uri = parse("/test?param_1=hello&param_2=goodbye&param_3=false")
       val uri2 = uri.mapQuery {
@@ -35,7 +33,6 @@ class TransformTests extends WordSpec with Matchers {
   }
 
   "filterQuery" should {
-
     "filter query params" in {
       val uri = parse("/test?param_1=hello&param_2=goodbye&param_3=false")
       val uri2 = uri.filterQuery {

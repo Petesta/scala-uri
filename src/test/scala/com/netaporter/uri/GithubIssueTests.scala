@@ -6,13 +6,11 @@ import Uri._
 import com.netaporter.uri.decoding.PermissivePercentDecoder
 import com.netaporter.uri.config.UriConfig
 import com.netaporter.uri
-import org.parboiled2.ParseError
 
 /**
  * Test Suite to ensure that bugs raised by awesome github peeps NEVER come back
  */
 class GithubIssueTests extends FlatSpec with Matchers with OptionValues {
-
   import uri.dsl._
 
   "Github Issue #2" should "now be fixed. Pluses in querystrings should be encoded when using the conservative encoder" in {

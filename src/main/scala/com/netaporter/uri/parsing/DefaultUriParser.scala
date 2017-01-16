@@ -6,7 +6,6 @@ import com.netaporter.uri.config.UriConfig
 import Parameters._
 
 class DefaultUriParser(val input: ParserInput, conf: UriConfig) extends Parser with UriParser {
-
   def _scheme: Rule1[String] = rule {
     capture(CharPredicate.Alpha ~ zeroOrMore(CharPredicate.AlphaNum | anyOf("+-.")))
   }
@@ -19,7 +18,7 @@ class DefaultUriParser(val input: ParserInput, conf: UriConfig) extends Parser w
     capture(oneOrMore(!anyOf(":/?@") ~ ANY)) ~ optional(":" ~ optional(capture(oneOrMore(!anyOf("@") ~ ANY)))) ~ "@" ~> extractUserInfo
   }
 
-  //TODO Try harder to make this a Rule1[Int] using ~> extractInt
+  // TODO: Try harder to make this a Rule1[Int] using ~> extractInt
   def _port: Rule1[String] = rule {
     ":" ~ capture(oneOrMore(CharPredicate.Digit))
   }
@@ -79,7 +78,7 @@ class DefaultUriParser(val input: ParserInput, conf: UriConfig) extends Parser w
   }
 
   val extractAbsUri = (scheme: String, authority: Option[Authority], pp: Seq[PathPart], qs: Option[QueryString], f: Option[String]) =>
-    extractUri (
+    extractUri(
       scheme = Some(scheme),
       authority = authority,
       pathParts = pp,
@@ -88,7 +87,7 @@ class DefaultUriParser(val input: ParserInput, conf: UriConfig) extends Parser w
     )
 
   val extractProtocolRelUri = (authority: Option[Authority], pp: Seq[PathPart], qs: Option[QueryString], f: Option[String]) =>
-    extractUri (
+    extractUri(
       authority = authority,
       pathParts = pp,
       query = qs,
@@ -96,29 +95,32 @@ class DefaultUriParser(val input: ParserInput, conf: UriConfig) extends Parser w
     )
 
   val extractRelUri = (pp: Seq[PathPart], qs: Option[QueryString], f: Option[String]) =>
-    extractUri (
+    extractUri(
       pathParts = pp,
       query = qs,
       fragment = f
     )
 
-  def extractUri(scheme: Option[String] = None,
-                 authority: Option[Authority] = None,
-                 pathParts: Seq[PathPart],
-                 query: Option[QueryString],
-                 fragment: Option[String]) =
-    new Uri(
-      scheme = scheme,
-      user = authority.flatMap(_.user),
-      password = authority.flatMap(_.password),
-      host = authority.map(_.host),
-      port = authority.flatMap(_.port),
-      pathParts = pathParts,
-      query = query.getOrElse(EmptyQueryString),
-      fragment = fragment
-    )
+  def extractUri(
+    scheme: Option[String] = None,
+    authority: Option[Authority] = None,
+    pathParts: Seq[PathPart],
+    query: Option[QueryString],
+    fragment: Option[String]
+  ) = new Uri(
+    scheme = scheme,
+    user = authority.flatMap(_.user),
+    password = authority.flatMap(_.password),
+    host = authority.map(_.host),
+    port = authority.flatMap(_.port),
+    pathParts = pathParts,
+    query = query.getOrElse(EmptyQueryString),
+    fragment = fragment
+  )
 
   def pathDecoder = conf.pathDecoder
+
   def queryDecoder = conf.queryDecoder
+
   def fragmentDecoder = conf.fragmentDecoder
 }

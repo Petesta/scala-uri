@@ -3,7 +3,6 @@ package com.netaporter.uri
 import org.scalatest.{Matchers, FlatSpec}
 
 class ProtocolTests extends FlatSpec with Matchers {
-
   import dsl._
 
   "A domain with no scheme" should "be rendered as a scheme relative url" in {

@@ -1,12 +1,10 @@
 package com.netaporter.uri.decoding
 
-
 /**
  * Date: 23/06/2013
  * Time: 20:38
  */
 object PercentDecoder extends UriDecoder {
-
   def decode(s: String) = try {
     val segments = s.split('%')
     val decodedSegments = segments.tail.flatMap(seg => {

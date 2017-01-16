@@ -6,5 +6,6 @@ package com.netaporter.uri.encoding
 */
 object NoopEncoder extends UriEncoder {
   def shouldEncode(ch: Char) = false
+
   def encodeChar(ch: Char) = ch.toString
 }

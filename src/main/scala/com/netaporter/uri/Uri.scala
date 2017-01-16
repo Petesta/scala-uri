@@ -10,7 +10,7 @@ import scala.collection.Seq
 /**
  * http://tools.ietf.org/html/rfc3986
  */
-case class Uri (
+case class Uri(
   scheme: Option[String],
   user: Option[String],
   password: Option[String],
@@ -20,7 +20,6 @@ case class Uri (
   query: QueryString,
   fragment: Option[String]
 ) {
-
   lazy val hostParts: Seq[String] =
     host.map(h => h.split('.').toVector).getOrElse(Vector.empty)
 
@@ -42,14 +41,14 @@ case class Uri (
       case None => Seq.empty
     }
 
-  def addMatrixParam(pp: String, k: String, v: String) = copy (
+  def addMatrixParam(pp: String, k: String, v: String) = copy(
     pathParts = pathParts.map {
       case p: PathPart if p.part == pp => p.addParam(k -> Some(v))
       case x => x
     }
   )
 
-  def addMatrixParam(k: String, v: String) = copy (
+  def addMatrixParam(k: String, v: String) = copy(
     pathParts = pathParts.dropRight(1) :+ pathParts.last.addParam(k -> Some(v))
   )
 
@@ -136,7 +135,7 @@ case class Uri (
    * @return String containing the path for this Uri
    */
   def path(implicit c: UriConfig = UriConfig.default) =
-    if(pathParts.isEmpty) ""
+    if (pathParts.isEmpty) ""
     else "/" + pathParts.map(_.partToString(c)).mkString("/")
 
   def queryStringRaw(implicit c: UriConfig = UriConfig.default) =
@@ -154,14 +153,13 @@ case class Uri (
    * @param v value to replace with
    * @return A new Uri with the result of the replace
    */
-  def replaceParams(k: String, v: Any) = {
+  def replaceParams(k: String, v: Any) =
     v match {
       case valueOpt: Option[_] =>
         copy(query = query.replaceAll(k, valueOpt))
       case _ =>
         copy(query = query.replaceAll(k, Some(v)))
     }
-  }
 
   /**
    * Replaces the all existing Query String parameters with a new set of query params
@@ -237,45 +235,40 @@ case class Uri (
    * @param k Key for the Query String parameter(s) to remove
    * @return
    */
-  def removeParams(k: String) = {
+  def removeParams(k: String) =
     copy(query = query.removeAll(k))
-  }
 
   /**
    * Removes all Query String parameters with the specified key contained in the a (Array)
    * @param a an Array of Keys for the Query String parameter(s) to remove
    * @return
    */
-  def removeParams(a: Seq[String]) = {
+  def removeParams(a: Seq[String]) =
     copy(query = query.removeAll(a))
-  }
 
   /**
    * Removes all Query String parameters
    * @return
    */
-  def removeAllParams() = {
+  def removeAllParams() =
     copy(query = query.removeAll())
-  }
 
-  def publicSuffix: Option[String] = {
+  def publicSuffix: Option[String] =
     for {
       h <- host
       longestMatch <- PublicSuffixes.trie.longestMatch(h.reverse)
     } yield longestMatch.reverse
-  }
 
-  def publicSuffixes: Seq[String] = {
+  def publicSuffixes: Seq[String] =
     for {
       h <- host.toSeq
       m <- PublicSuffixes.trie.matches(h.reverse)
     } yield m.reverse
-  }
 
   override def toString = toString(UriConfig.default)
 
   def toString(implicit c: UriConfig = UriConfig.default): String = {
-    //If there is no scheme, we use scheme relative
+    // If there is no scheme, we use scheme relative
     def userInfo = for {
       userStr <- user
       userStrEncoded = c.userInfoEncoder.encode(userStr, c.charset)
@@ -312,27 +305,28 @@ case class Uri (
 }
 
 object Uri {
-
   def parse(s: CharSequence)(implicit config: UriConfig = UriConfig.default): Uri =
     UriParser.parse(s.toString, config)
-
 
   def parseQuery(s: CharSequence)(implicit config: UriConfig = UriConfig.default): QueryString =
     UriParser.parseQuery(s.toString, config)
 
-  def apply(scheme: String = null,
-            user: String = null,
-            password: String = null,
-            host: String = null,
-            port: Int = 0,
-            pathParts: Seq[PathPart] = Seq.empty,
-            query: QueryString = EmptyQueryString,
-            fragment: String = null) = {
-      new Uri(Option(scheme),
+  def apply(
+    scheme: String = null,
+    user: String = null,
+    password: String = null,
+    host: String = null,
+    port: Int = 0,
+    pathParts: Seq[PathPart] = Seq.empty,
+    query: QueryString = EmptyQueryString,
+    fragment: String = null
+  ) = {
+      new Uri(
+        Option(scheme),
         Option(user),
         Option(password),
         Option(host),
-        if(port > 0) Some(port) else None,
+        if (port > 0) Some(port) else None,
         pathParts,
         query,
         Option(fragment)

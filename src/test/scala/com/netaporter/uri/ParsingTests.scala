@@ -8,7 +8,6 @@ import com.netaporter.uri.parsing._
 import com.netaporter.uri.config.UriConfig
 
 class ParsingTests extends FlatSpec with Matchers {
-
   "Parsing an absolute URI" should "result in a valid Uri object" in {
     val uri = parse("http://theon.github.com/uris-in-scala.html")
     uri.scheme should equal (Some("http"))

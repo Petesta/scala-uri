@@ -8,7 +8,6 @@ import Parameters._
  * Time: 21:21
  */
 trait PathPart extends Any {
-
   type Self <: PathPart
 
   /**
@@ -33,7 +32,6 @@ trait PathPart extends Any {
 }
 
 case class StringPathPart(part: String) extends AnyVal with PathPart {
-
   type Self = StringPathPart
 
   def params = Vector.empty
@@ -49,7 +47,6 @@ case class StringPathPart(part: String) extends AnyVal with PathPart {
 }
 
 case class MatrixParams(part: String, params: ParamSeq) extends PathPart with Parameters {
-
   type Self = MatrixParams
 
   def separator = ";"
@@ -69,5 +66,5 @@ case class MatrixParams(part: String, params: ParamSeq) extends PathPart with Pa
 
 object PathPart {
   def apply(path: String, matrixParams: ParamSeq = Seq.empty) =
-    if(matrixParams.isEmpty) new StringPathPart(path) else MatrixParams(path, matrixParams)
+    if (matrixParams.isEmpty) new StringPathPart(path) else MatrixParams(path, matrixParams)
 }
