@@ -44,7 +44,7 @@ class GithubIssueTests extends FlatSpec with Matchers with OptionValues {
 
     uri.scheme should equal (None)
     uri.host should equal (None)
-    uri.path should equal ("/abc")
+    uri.path should equal ("abc")
   }
 
   "Github Issue #15" should "now be fixed. Empty Query String values are parsed" in {
@@ -186,5 +186,10 @@ class GithubIssueTests extends FlatSpec with Matchers with OptionValues {
   "Github Issue #124" should "now be fixed" in {
     val uri = Uri.parse("https://github.com")
     uri.matrixParams should equal(Seq.empty)
+  }
+
+  "Github Issue #107" should "now be fixed" in {
+    Uri.parse("path").toString should equal("path")
+    Uri.parse("/path").toString should equal("/path")
   }
 }
