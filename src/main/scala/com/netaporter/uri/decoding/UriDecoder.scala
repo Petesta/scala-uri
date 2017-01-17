@@ -1,8 +1,6 @@
 package com.netaporter.uri.decoding
 
-import com.netaporter.uri.Parameters
-import Parameters._
-import com.netaporter.uri.Parameters
+import com.netaporter.uri.Parameters.Param
 
 /**
  * Date: 28/08/2013

@@ -1,5 +1,3 @@
-//import scoverage.ScoverageSbtPlugin.ScoverageKeys._
-
 name := "scala-uri"
 
 organization  := "com.netaporter"
@@ -8,7 +6,11 @@ version       := "0.4.16"
 
 scalaVersion  := "2.12.0"
 
-crossScalaVersions := Seq("2.10.6", "2.11.8", "2.12.0")
+crossScalaVersions := Seq(
+  "2.10.6",
+  "2.11.8",
+  "2.12.0"
+)
 
 def coverageEnabled(scalaVersion: String) = scalaVersion match {
   case v if v startsWith "2.10" => false
@@ -20,29 +22,39 @@ lazy val updatePublicSuffixes = taskKey[Unit]("Updates the public suffix Trie at
 
 updatePublicSuffixes := UpdatePublicSuffixTrie.generate()
 
-//coverageOutputXML := coverageEnabled(scalaVersion.value)
-//
-//coverageOutputCobertua := coverageEnabled(scalaVersion.value)
-//
-//coverageHighlighting := coverageEnabled(scalaVersion.value)
-
 publishMavenStyle := true
 
 publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+resolvers ++= Seq(
+  "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases",
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+)
 
-resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
+scalacOptions := Seq(
+  "-deprecation",
+  "-encoding", "UTF-8",
+  "-feature",
+  "-language:existentials",
+  "-language:higherKinds",
+  "-language:implicitConversions",
+  "-unchecked",
+  "-Xfatal-warnings",
+  "-Xfuture",
+  "-Yno-adapted-args",
+  "-Ywarn-dead-code",
+  "-Ywarn-numeric-widen",
+  "-Ywarn-unused-import",
+  "-Ywarn-value-discard"
+)
 
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-feature")
-
-libraryDependencies += "org.parboiled" %% "parboiled" % "2.1.3"
-
-libraryDependencies += "io.spray" %%  "spray-json" % "1.3.2"
-
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+libraryDependencies ++= Seq(
+  "io.spray" %%  "spray-json" % "1.3.2",
+  "org.parboiled" %% "parboiled" % "2.1.3",
+  "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+)
 
 parallelExecution in Test := false
 
@@ -51,7 +63,7 @@ publishTo <<= version { (v: String) =>
   if (v.trim.endsWith("SNAPSHOT"))
     Some("snapshots" at nexus + "content/repositories/snapshots")
   else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
 pomExtra := (
@@ -73,4 +85,5 @@ pomExtra := (
       <name>Ian Forsey</name>
       <url>http://theon.github.io</url>
     </developer>
-  </developers>)
+  </developers>
+)

@@ -14,8 +14,8 @@ object UpdatePublicSuffixTrie {
 
     def empty = Trie(Map.empty, wordEnd = false)
   }
-  case class Trie(children: Map[Char, Trie], wordEnd: Boolean = false) {
 
+  case class Trie(children: Map[Char, Trie], wordEnd: Boolean = false) {
     def +(kv: (Char, Trie)): Trie =
       this.copy(children = children + kv)
 
@@ -31,17 +31,16 @@ object UpdatePublicSuffixTrie {
           case Some(child) =>
             this + (x -> child.insert(xs))
         }
-
     }
 
     override def toString(): String = {
-      s"""Trie(
-            Map(${children.map(kv => s"'${kv._1}' -> ${kv._2.toString()}").mkString(",")})
-            ${if(wordEnd) ", wordEnd = true" else ""}
-          )
-        """
+      s"""
+        Trie(
+          Map(${children.map(kv => s"'${kv._1}' -> ${kv._2.toString()}").mkString(",")})
+          ${if (wordEnd) ", wordEnd = true" else ""}
+        )
+      """
     }
-
   }
 
   def generate(): Unit = {

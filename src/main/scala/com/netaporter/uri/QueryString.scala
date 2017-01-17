@@ -8,7 +8,6 @@ import com.netaporter.uri.Parameters.{Param, ParamSeq}
  * Time: 21:22
  */
 case class QueryString(params: ParamSeq) extends Parameters {
-
   type Self = QueryString
 
   def separator = "&"
@@ -17,7 +16,7 @@ case class QueryString(params: ParamSeq) extends Parameters {
     QueryString(paramsIn)
 
   def queryToString(c: UriConfig) =
-    if(params.isEmpty) ""
+    if (params.isEmpty) ""
     else "?" + paramsToString(c.queryEncoder, c.charset)
 }
 

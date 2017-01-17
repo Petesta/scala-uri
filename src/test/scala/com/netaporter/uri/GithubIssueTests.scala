@@ -6,13 +6,11 @@ import Uri._
 import com.netaporter.uri.decoding.PermissivePercentDecoder
 import com.netaporter.uri.config.UriConfig
 import com.netaporter.uri
-import org.parboiled2.ParseError
 
 /**
  * Test Suite to ensure that bugs raised by awesome github peeps NEVER come back
  */
 class GithubIssueTests extends FlatSpec with Matchers with OptionValues {
-
   import uri.dsl._
 
   "Github Issue #2" should "now be fixed. Pluses in querystrings should be encoded when using the conservative encoder" in {
@@ -46,7 +44,7 @@ class GithubIssueTests extends FlatSpec with Matchers with OptionValues {
 
     uri.scheme should equal (None)
     uri.host should equal (None)
-    uri.path should equal ("/abc")
+    uri.path should equal ("abc")
   }
 
   "Github Issue #15" should "now be fixed. Empty Query String values are parsed" in {
@@ -188,5 +186,10 @@ class GithubIssueTests extends FlatSpec with Matchers with OptionValues {
   "Github Issue #124" should "now be fixed" in {
     val uri = Uri.parse("https://github.com")
     uri.matrixParams should equal(Seq.empty)
+  }
+
+  "Github Issue #107" should "now be fixed" in {
+    Uri.parse("path").toString should equal("path")
+    Uri.parse("/path").toString should equal("/path")
   }
 }

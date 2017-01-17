@@ -3,7 +3,6 @@ package com.netaporter.uri
 import org.scalatest.{Matchers, FlatSpec}
 
 class DslTests extends FlatSpec with Matchers {
-
   import dsl._
 
   "A simple absolute URI" should "render correctly" in {

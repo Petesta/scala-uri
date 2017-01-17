@@ -1,6 +1,6 @@
 package com.netaporter.uri.dsl
 
-import com.netaporter.uri.{Uri, StringPathPart}
+import com.netaporter.uri.{PathPart, StringPathPart, Uri}
 
 /**
  * Value class to add DSL functionality to Uris
@@ -8,7 +8,6 @@ import com.netaporter.uri.{Uri, StringPathPart}
  * @param uri
  */
 class UriDsl(val uri: Uri) extends AnyVal {
-
   /**
    * Adds a new Query String parameter key-value pair. If the value for the Query String parameter is None, then this
    * Query String parameter will not be rendered in calls to toString or toStringRaw
@@ -34,7 +33,6 @@ class UriDsl(val uri: Uri) extends AnyVal {
    */
   def &(kv: (String, Any)) = uri.addParam(kv._1, kv._2)
 
-
   /**
    * Adds a fragment to the end of the uri
    * @param fragment String representing the fragment
@@ -47,7 +45,10 @@ class UriDsl(val uri: Uri) extends AnyVal {
    * @param pp The path part
    * @return A new Uri with this path part appended
    */
-  def /(pp: String) = uri.copy(pathParts = uri.pathParts :+ StringPathPart(pp))
+  def /(pp: String) = {
+    val before = if (uri.rawPathParts.isEmpty) Seq(PathPart.empty) else uri.rawPathParts
+    uri.copy(rawPathParts = before :+ StringPathPart(pp))
+  }
 
   /**
    * Operator precedence in Scala will mean that our DSL will not always be executed left to right.
@@ -62,7 +63,7 @@ class UriDsl(val uri: Uri) extends AnyVal {
    *
    * (see Scala Reference - 6.12.3 Infix Operations: http://www.scala-lang.org/docu/files/ScalaReference.pdf)
    *
-   * To handle cases where the right hard part of the DSL is executed first, we turn that into a Uri, and merge
+   * To handle cases where the right hand part of the DSL is executed first, we turn that into a Uri, and merge
    * it with the left had side. It is assumed the right hand Uri is generated from this DSL only to add path
    * parts, query parameters or to overwrite the fragment
    *
@@ -71,13 +72,16 @@ class UriDsl(val uri: Uri) extends AnyVal {
    */
   private def merge(other: Uri) =
     uri.copy(
-      pathParts = uri.pathParts ++ other.pathParts,
+      rawPathParts = uri.rawPathParts ++ other.rawPathParts,
       query = uri.query.addParams(other.query),
       fragment = other.fragment.orElse(uri.fragment)
     )
 
   def /(other: Uri) = merge(other)
+
   def ?(other: Uri) = merge(other)
+
   def `#`(other: Uri) = merge(other)
+
   def &(other: Uri) = merge(other)
 }

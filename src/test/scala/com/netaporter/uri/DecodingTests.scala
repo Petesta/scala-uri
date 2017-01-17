@@ -5,7 +5,6 @@ import com.netaporter.uri.decoding.{UriDecodeException, NoopDecoder}
 import com.netaporter.uri.config.UriConfig
 
 class DecodingTests extends FlatSpec with Matchers {
-
   "Reserved characters" should "be percent decoded during parsing" in {
     val uri = Uri.parse("http://theon.github.com/uris-in-scala.html?reserved=%3A%2F%3F%23%5B%5D%40%21%24%26%27%28%29%2A%2B%2C%3B%3D%7B%7D%5C%0A%0D")
     uri.toStringRaw() should equal ("http://theon.github.com/uris-in-scala.html?reserved=:/?#[]@!$&'()*+,;={}\\\n\r")
